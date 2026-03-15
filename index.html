@@ -6,6 +6,8 @@
     <title>Harpreet Kaur | Senior Product Engineer</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --primary: #00d4ff;
@@ -204,6 +206,15 @@
             border: 2px solid var(--primary);
         }
 
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
         .btn::before {
             content: '';
             position: absolute;
@@ -326,8 +337,8 @@
         /* Skills Section */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
         }
 
         .skill-category {
@@ -362,8 +373,8 @@
         /* Projects Section */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
         }
 
         .project-card {
@@ -423,26 +434,49 @@
         }
 
         .project-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
+            justify-content: space-between;
             gap: 1rem;
             margin-bottom: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .metric {
             text-align: center;
+            padding: 1rem 0.8rem;
+            min-height: 110px;
+            min-width: 120px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-sizing: border-box;
         }
 
         .metric-value {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--success);
             display: block;
+            margin-bottom: 0.8rem;
+            line-height: 1.1;
+            text-align: center;
+            white-space: nowrap;
         }
 
         .metric-label {
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             color: var(--gray);
+            line-height: 1.1;
+            text-align: center;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Timeline */
@@ -559,6 +593,18 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
@@ -580,6 +626,41 @@
 
             .about-stats {
                 grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .project-metrics {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .metric {
+                min-width: 200px;
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-metrics {
+                gap: 0.5rem;
+            }
+
+            .metric {
+                min-width: 100px;
+                padding: 0.8rem 0.5rem;
+                min-height: 90px;
+            }
+
+            .metric-value {
+                font-size: 1rem;
+            }
+
+            .metric-label {
+                font-size: 0.65rem;
             }
         }
 
@@ -612,6 +693,31 @@
         ::-webkit-scrollbar-thumb:hover {
             background: linear-gradient(to bottom, var(--secondary), var(--accent));
         }
+
+        /* Contact Form Styles */
+        #contactForm input,
+        #contactForm textarea {
+            transition: all 0.3s ease;
+        }
+
+        #contactForm input:focus,
+        #contactForm textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        #contactForm input::placeholder,
+        #contactForm textarea::placeholder {
+            color: rgba(248, 250, 252, 0.6);
+        }
+
+        #contactForm button:hover {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -628,6 +734,7 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#contributions">Contributions</a></li>
+                <li><a href="#publications">Publications</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -646,13 +753,17 @@
             <h1 class="hero-title">Harpreet Kaur</h1>
             <p class="hero-subtitle">Senior Product Engineer - Front End @ Synopsys</p>
             <p class="hero-description">
-                Crafting the future of Electronic Design Automation with innovative EDA tools, 
-                SystemVerilog expertise, and cutting-edge VLSI solutions. 3+ years dedicated Design.da analytics expertise, 
-                now specializing in HDL Compiler and RTL Architect optimization.
+                Specializing in EDA Product Engineering and Physical Design with innovative RTL synthesis tools, 
+                SystemVerilog expertise, and cutting-edge VLSI solutions. 3+ years dedicated to Design.da analytics, 
+                physical design automation, and advanced RTL validation. Expert in power optimization, timing analysis, 
+                and comprehensive design flow automation from RTL to signoff.
             </p>
             <div class="cta-buttons">
                 <a href="#projects" class="btn btn-primary">View My Work</a>
                 <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                <button id="downloadResumeBtn" class="btn btn-accent">
+                    <i class="fas fa-download"></i> Download Resume
+                </button>
             </div>
         </div>
     </section>
@@ -663,12 +774,12 @@
         <div class="about-grid">
             <div class="about-text fade-in">
                 <p>
-                    <strong>Senior Product Engineer - Front End at Synopsys with M.Tech in Electronics VLSI Design (GPA: 9.03/10).</strong> 
+                    <strong>Senior Product Engineer - Front End at Synopsys with M.Tech in Electronics VLSI Design (GPA: 9.03/10) and published research in VLSI power optimization.</strong> 
                     3+ years of industry experience spanning Design.da analytics platform development (2023-Oct 2025) and current HDL Compiler/RTL Architect specialization.
                 </p>
                 <p>
                     <strong>Successfully resolved 100+ critical customer issues for major semiconductor companies including Intel, Samsung Foundry, and Socionext.</strong> 
-                    Expertise in workflow automation, PD flows, RTL synthesis, SystemVerilog compliance, and analytics application development. Specialized in Python workflow development, 
+                    Expertise in workflow automation, SystemVerilog compliance, and analytics application development. Specialized in Python workflow development, 
                     platform testing, and creating intelligent process automation systems that enhance design productivity.
                 </p>
             </div>
@@ -698,18 +809,19 @@
         <h2 class="section-title fade-in">Technical Expertise</h2>
         <div class="skills-grid">
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-microchip"></i> EDA Tools</h3>
+                <h3><i class="fas fa-microchip"></i> Physical Design & EDA Tools</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">HDL Compiler</span>
                     <span class="skill-tag">RTL Architect</span>
-                    <span class="skill-tag">Design Compiler</span>
                     <span class="skill-tag">Fusion Compiler</span>
                     <span class="skill-tag">PrimeTime</span>
+                    <span class="skill-tag">Design Compiler</span>
                     <span class="skill-tag">Cadence Virtuoso</span>
+                    <span class="skill-tag">SPEF Analysis</span>
                 </div>
             </div>
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-code"></i> Programming</h3>
+                <h3><i class="fas fa-code"></i> Programming & Scripting</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">SystemVerilog</span>
                     <span class="skill-tag">VHDL</span>
@@ -719,24 +831,26 @@
                 </div>
             </div>
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-cogs"></i> Specializations</h3>
+                <h3><i class="fas fa-cogs"></i> Physical Design Specializations</h3>
                 <div class="skill-tags">
-                    <span class="skill-tag">RTL2GDSII</span>
                     <span class="skill-tag">RTL Synthesis</span>
-                    <span class="skill-tag">Power Optimization</span>
+                    <span class="skill-tag">PPA Optimization</span>
                     <span class="skill-tag">Timing Analysis</span>
+                    <span class="skill-tag">Power Optimization</span>
                     <span class="skill-tag">Performance Profiling</span>
-                    <span class="skill-tag">Memory Optimization</span>
+                    <span class="skill-tag">Signoff Correlation</span>
                     <span class="skill-tag">Debug Methodologies</span>
                 </div>
             </div>
             <div class="skill-category fade-in">
-                <h3><i class="fas fa-chart-line"></i> Analytics & AI</h3>
+                <h3><i class="fas fa-chart-line"></i> Analytics & Automation</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Data Analytics</span>
                     <span class="skill-tag">Machine Learning</span>
                     <span class="skill-tag">Workflow Automation</span>
                     <span class="skill-tag">Dashboard Development</span>
+                    <span class="skill-tag">ETL Pipelines</span>
+                    <span class="skill-tag">Predictive Analytics</span>
                 </div>
             </div>
         </div>
@@ -754,12 +868,11 @@
                 <div class="project-content">
                     <p class="project-description">
                         <strong>Transformed design analysis workflows</strong> by building an enterprise-scale analytics platform that processes massive EDA datasets automatically. 
-                        <strong>Solved critical data correlation problems</strong> where timing analysis results were inconsistent between tools (Fusion Compiler and PrimeTime), causing engineers to waste hours manually debugging. 
+                        <strong>Solved critical data correlation problems</strong> where timing analysis results were inconsistent between tools, causing engineers to waste hours manually debugging. 
                         <strong>Created intelligent dashboards</strong> that instantly identify performance bottlenecks, power hotspots, and timing violations across complex semiconductor designs.
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Python Analytics</span>
-                         <span class="tech-tag">RM flows</span>
                         <span class="tech-tag">Data Processing</span>
                         <span class="tech-tag">Dashboard Development</span>
                         <span class="tech-tag">Workflow Automation</span>
@@ -769,8 +882,7 @@
                     <div style="margin: 1rem 0; padding: 1rem; background: rgba(0,212,255,0.1); border-radius: 10px; border-left: 4px solid var(--primary);">
                         <strong>Business Impact:</strong><br>
                         • <strong>Eliminated manual analysis bottlenecks</strong> - engineers now get instant insights instead of spending days correlating data<br>
-                        • <strong>Delivered Samsung Foundry success</strong> - Customized PPA Automation Framework for Samsung Foundry 2025. Architected and deployed an automated DTCO/PPA dashboard with predictive analytics and systematized reporting; reduced PPA analysis time by 30–40% and
-improved design evaluation efficiency by 25%. Validated solution across early-node designs, achieved >90% accuracy for timing-critical path identification, cut manual effort ~50% with Qor summaries and sanity checks, and drove cross-functional AI-driven enhancements.<br>
+                        • <strong>Delivered enterprise customer success</strong> - custom analytics solutions processing thousands of critical nets for power optimization<br>
                         • <strong>Automated complex workflows</strong> - replaced error-prone manual processes with intelligent automation<br>
                         • <strong>Accelerated customer adoption</strong> - seamless analytics integration drove faster design closure
                     </div>
@@ -879,7 +991,7 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
 
             <div class="project-card fade-in">
                 <div class="project-header">
-                    <h3 class="project-title">NXP Digital Transformation Initiative</h3>
+                    <h3 class="project-title">NXP Advanced Analytics Platform Deployment</h3>
                     <p class="project-subtitle">Enterprise Analytics Revolution</p>
                 </div>
                 <div class="project-content">
@@ -915,49 +1027,6 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                         <div class="metric">
                             <span class="metric-value">Enterprise</span>
                             <span class="metric-label">Scale Impact</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in">
-                <div class="project-header">
-                    <h3 class="project-title">Timing Signoff Reliability Revolution</h3>
-                    <p class="project-subtitle">Automated Correlation & Debug Acceleration</p>
-                </div>
-                <div class="project-content">
-                    <p class="project-description">
-                        <strong>Eliminated timing signoff uncertainty</strong> that was causing chip tapeout delays by building automated correlation system between implementation and signoff tools. 
-                        <strong>Solved critical correlation gaps</strong> where timing results differed between tools, leading to costly respins and schedule slips. 
-                        <strong>Accelerated debug cycles</strong> from weeks to hours by providing instant visibility into timing discrepancies with intelligent root cause analysis.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Timing Correlation</span>
-                        <span class="tech-tag">Signoff Automation</span>
-                        <span class="tech-tag">Debug Acceleration</span>
-                        <span class="tech-tag">Root Cause Analysis</span>
-                        <span class="tech-tag">Workflow Intelligence</span>
-                        <span class="tech-tag">Quality Assurance</span>
-                    </div>
-                    <div style="margin: 1rem 0; padding: 1rem; background: rgba(124,58,237,0.1); border-radius: 10px; border-left: 4px solid var(--accent);">
-                        <strong>Signoff Revolution Impact:</strong><br>
-                        • <strong>Eliminated tapeout risks</strong> - automated correlation caught timing issues before costly fabrication<br>
-                        • <strong>Accelerated debug workflows</strong> - intelligent analysis reduced investigation time from weeks to hours<br>
-                        • <strong>Enhanced design confidence</strong> - comprehensive validation ensured reliable signoff results<br>
-                        • <strong>Streamlined handoffs</strong> - seamless tool integration eliminated manual correlation steps
-                    </div>
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">Weeks→Hours</span>
-                            <span class="metric-label">Debug Time Reduction</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">Zero</span>
-                            <span class="metric-label">Tapeout Surprises</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">Automated</span>
-                            <span class="metric-label">Signoff Validation</span>
                         </div>
                     </div>
                 </div>
@@ -1001,6 +1070,81 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                         <div class="metric">
                             <span class="metric-value">Universal</span>
                             <span class="metric-label">Tool Compatibility</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <h3 class="project-title">Samsung Foundry Analytics & PPA Optimization Platform</h3>
+                    <p class="project-subtitle">Comprehensive Enterprise Analytics & Physical Design Automation</p>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        <strong>Architected and deployed comprehensive analytics platform</strong> for Samsung Foundry, including automated PPA dashboard with predictive analytics, custom analytics solution processing 1000+ critical nets for power optimization, and systematized reporting reducing PPA analysis time by 30-40%. 
+                        <strong>Delivered end-to-end solution</strong> improving design evaluation efficiency by 25%, achieved 290% accuracy for timing-critical path identification, 
+                        cut manual effort ~50% with QoR summaries and sanity checks, and drove cross-functional AI-driven enhancements across their entire design flow.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Enterprise Analytics</span>
+                        <span class="tech-tag">PPA Analysis</span>
+                        <span class="tech-tag">Power Optimization</span>
+                        <span class="tech-tag">Predictive Analytics</span>
+                        <span class="tech-tag">Dashboard Development</span>
+                        <span class="tech-tag">Automation Framework</span>
+                        <span class="tech-tag">AI Integration</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">1000+</span>
+                            <span class="metric-label">Critical Nets</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">30-40%</span>
+                            <span class="metric-label">Analysis Time Cut</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">50%</span>
+                            <span class="metric-label">Manual Effort Cut</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in">
+                <div class="project-header">
+                    <h3 class="project-title">FC-PT Timing Signoff Correlation & Reliability System</h3>
+                    <p class="project-subtitle">Automated Correlation, Debug Acceleration & Signoff Validation</p>
+                </div>
+                <div class="project-content">
+                    <p class="project-description">
+                        <strong>Eliminated timing signoff uncertainty</strong> that was causing chip tapeout delays by building comprehensive automated correlation system between Fusion Compiler and PrimeTime. 
+                        <strong>Solved critical correlation gaps</strong> where timing results differed between tools, leading to costly respins and schedule slips. 
+                        <strong>Accelerated debug cycles from weeks to hours</strong> by providing instant visibility into timing discrepancies with intelligent root cause analysis. 
+                        <strong>Built analytics dashboards</strong> with NxM/NXP metrics for path group analysis, clock attributes, slack calculations, and integrated SPEF analysis for resistance/capacitance per net.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Fusion Compiler</span>
+                        <span class="tech-tag">PrimeTime</span>
+                        <span class="tech-tag">Timing Correlation</span>
+                        <span class="tech-tag">SPEF Analysis</span>
+                        <span class="tech-tag">Signoff Automation</span>
+                        <span class="tech-tag">Debug Acceleration</span>
+                        <span class="tech-tag">Root Cause Analysis</span>
+                    </div>
+                    <div class="project-metrics">
+                        <div class="metric">
+                            <span class="metric-value">Weeks→Hours</span>
+                            <span class="metric-label">Debug Speed</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">Zero</span>
+                            <span class="metric-label">Tapeout Risks</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-value">Full</span>
+                            <span class="metric-label">Automation</span>
                         </div>
                     </div>
                 </div>
@@ -1063,6 +1207,67 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
         </div>
     </section>
 
+    <!-- Publications Section -->
+    <section id="publications" class="section">
+        <h2 class="section-title fade-in">Publications & Research</h2>
+        <div class="skills-grid">
+            <div class="skill-category fade-in" style="grid-column: 1 / -1; max-width: 800px; margin: 0 auto;">
+                <div style="display: flex; align-items: center; margin-bottom: 1.5rem;">
+                    <i class="fas fa-file-alt" style="font-size: 2rem; color: var(--primary); margin-right: 1rem;"></i>
+                    <div>
+                        <h3 style="margin: 0; color: var(--primary); font-size: 1.4rem;">Research Publication</h3>
+                        <p style="margin: 0.5rem 0 0 0; color: var(--gray); font-size: 0.9rem;">International Journal of Scientific Research and Development (IJSRD)</p>
+                    </div>
+                </div>
+                
+                <div style="background: rgba(0, 212, 255, 0.1); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.3); margin-bottom: 1.5rem;">
+                    <h4 style="color: var(--light); margin-bottom: 1rem; font-size: 1.2rem;">
+                        "Unveiling Power Reduction Techniques in VLSI Physical Design: A Comprehensive Review"
+                    </h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; font-size: 0.9rem; color: var(--gray);">
+                        <span><i class="fas fa-calendar" style="margin-right: 0.5rem; color: var(--primary);"></i>Published: 2023</span>
+                        <span><i class="fas fa-building" style="margin-right: 0.5rem; color: var(--primary);"></i>IJSRD</span>
+                        <span><i class="fas fa-tag" style="margin-right: 0.5rem; color: var(--primary);"></i>VLSI, Power Optimization</span>
+                    </div>
+                    <p style="line-height: 1.6; margin-bottom: 1.5rem;">
+                        Comprehensive research on power reduction techniques in VLSI physical design, focusing on advanced methodologies 
+                        for optimizing power consumption while maintaining performance in modern semiconductor designs. The paper explores 
+                        innovative approaches to power-aware timing analysis and algorithmic solutions for enhanced design efficiency.
+                    </p>
+                    <a href="https://www.ijsrd.com/articles/IJSRDV11I50145.pdf" 
+                       target="_blank" 
+                       class="btn btn-primary" 
+                       style="display: inline-flex; align-items: center; text-decoration: none; padding: 0.8rem 1.5rem; font-size: 0.9rem;">
+                        <i class="fas fa-external-link-alt" style="margin-right: 0.5rem;"></i>
+                        View Publication
+                    </a>
+                </div>
+
+                <div style="background: rgba(124, 58, 237, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(124, 58, 237, 0.3);">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Research Impact & Contributions</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                            <i class="fas fa-check-circle" style="color: var(--success); margin-right: 0.8rem; margin-top: 0.2rem; font-size: 0.9rem;"></i>
+                            <span>Comprehensive analysis of power reduction methodologies in VLSI physical design</span>
+                        </li>
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                            <i class="fas fa-check-circle" style="color: var(--success); margin-right: 0.8rem; margin-top: 0.2rem; font-size: 0.9rem;"></i>
+                            <span>Advanced algorithmic solutions for power-aware timing analysis optimization</span>
+                        </li>
+                        <li style="margin-bottom: 0.8rem; display: flex; align-items: flex-start;">
+                            <i class="fas fa-check-circle" style="color: var(--success); margin-right: 0.8rem; margin-top: 0.2rem; font-size: 0.9rem;"></i>
+                            <span>Integration of power optimization with performance maintenance strategies</span>
+                        </li>
+                        <li style="display: flex; align-items: flex-start;">
+                            <i class="fas fa-check-circle" style="color: var(--success); margin-right: 0.8rem; margin-top: 0.2rem; font-size: 0.9rem;"></i>
+                            <span>Contribution to academic knowledge base in semiconductor design optimization</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Experience Section -->
     <section id="experience" class="section">
         <h2 class="section-title fade-in">Professional Journey</h2>
@@ -1086,16 +1291,21 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                 <p>Automated PPA: Developed Python applications significantly reducing analysis time. Data Collaboration: Led analytics adoption, enhancing cross-team data sharing. Tool Reliability: Fixed 20+ bugs, boosting stability. Thesis: Optimized design for improved power and timing.</p>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2021 - 2023</div>
-                <h3 class="timeline-title">M.Tech Electronics VLSI Design</h3>
-                <div class="timeline-company">Punjab Engineering College</div>
-                <p>Graduated with 9.03/10 GPA. Thesis on "Optimizing Physical Design" focusing on power-aware timing analysis. Published research in VLSI power reduction techniques.</p>
+                <div class="timeline-date">08/2021 - 08/2023</div>
+                <h3 class="timeline-title">Master of Technology - Electronics VLSI Design</h3>
+                <div class="timeline-company">Punjab Engineering College, Chandigarh</div>
+                <p><strong>GPA: 9.03/10</strong><br>
+                <strong>Course Electives:</strong> Analog CMOS Design, Testing and Fault Tolerance, Digital Logic Design, FPGA and ASIC<br>
+                <strong>Digital Design:</strong> Traffic light Controller and vending machine using Verilog on Xilinx ISE<br>
+                <strong>Analog Design:</strong> Design of operational amplifier on Cadence Virtuoso<br>
+                <strong>Thesis:</strong> "Optimizing Physical Design" improves timing and power by integrating power-aware timing, test synthesis, and library gate constraints using tools like Fusion Compiler, developed algorithms showing power reduction while maintaining performance through algorithmic solutions for power-aware timing analysis, high fanout optimization and test synthesis.</p>
             </div>
             <div class="timeline-item">
-                <div class="timeline-date">2014 - 2018</div>
-                <h3 class="timeline-title">B.Tech Electronics & Communication Engineering</h3>
-                <div class="timeline-company">UIET, Kurukshetra University</div>
-                <p>Graduated with 8.33/10 GPA. Project: Health monitoring system - pulse rate, ECG, and temperature transmission through WiFi module ESP8266 over Cayenne app with email alerts for discrepancies. Strong foundation in electronics and communication engineering.</p>
+                <div class="timeline-date">08/2014 - 07/2018</div>
+                <h3 class="timeline-title">Bachelor of Technology - Electronics and Communication Engineering</h3>
+                <div class="timeline-company">UIET, Kurukshetra University, Kurukshetra</div>
+                <p><strong>GPA: 8.33/10</strong><br>
+                <strong>Project (Health monitoring system):</strong> The pulse rate, ECG, and temperature are transmitted through WiFi module ESP8266 over Cayenne app, which sends an email to the user in case of any discrepancy.</p>
             </div>
         </div>
     </section>
@@ -1120,6 +1330,13 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                     </div>
                 </div>
                 <div class="contact-item">
+                    <i class="fas fa-map-marker-alt contact-icon"></i>
+                    <div>
+                        <h4>Location</h4>
+                        <p>India</p>
+                    </div>
+                </div>
+                <div class="contact-item">
                     <i class="fas fa-briefcase contact-icon"></i>
                     <div>
                         <h4>Position</h4>
@@ -1135,20 +1352,43 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                 </div>
                 
                 <div class="social-links">
-                    <a href="https://linkedin.com/in/harpreetka" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://linkedin.com/in/harpreet-kaur" class="social-link" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <button id="downloadResumeBtn2" class="social-link" style="border: none; cursor: pointer;" title="Download Resume PDF">
+                        <i class="fas fa-file-pdf"></i>
+                    </button>
                 </div>
             </div>
             <div class="fade-in">
-                <h3 style="margin-bottom: 2rem; color: var(--primary);">Open to Opportunities</h3>
-                <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">
-                    I'm passionate about advancing EDA technology and always interested in discussing 
-                    innovative projects, collaboration opportunities, and the future of electronic design automation.
-                </p>
-                <div style="background: rgba(0, 212, 255, 0.1); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.3);">
+                <h3 style="margin-bottom: 2rem; color: var(--primary);">Send Me a Message</h3>
+                <form id="contactForm" style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required
+                               style="width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--light); font-size: 1rem; font-family: 'Space Grotesk', sans-serif;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required
+                               style="width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--light); font-size: 1rem; font-family: 'Space Grotesk', sans-serif;">
+                    </div>
+                    <div style="margin-bottom: 1.5rem;">
+                        <input type="text" id="subject" name="subject" placeholder="Subject" required
+                               style="width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--light); font-size: 1rem; font-family: 'Space Grotesk', sans-serif;">
+                    </div>
+                    <div style="margin-bottom: 2rem;">
+                        <textarea id="message" name="message" placeholder="Your Message" rows="6" required
+                                  style="width: 100%; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: var(--light); font-size: 1rem; font-family: 'Space Grotesk', sans-serif; resize: vertical; min-height: 120px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1rem 2rem; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <i class="fas fa-paper-plane"></i>
+                        Send Message
+                    </button>
+                </form>
+                
+                <div style="margin-top: 2rem; background: rgba(0, 212, 255, 0.1); padding: 2rem; border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.3);">
                     <h4 style="color: var(--primary); margin-bottom: 1rem;">Areas of Interest:</h4>
                     <ul style="list-style: none; padding: 0;">
                         <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> EDA Tool Innovation</li>
                         <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Performance Optimization</li>
+                        <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Physical Design</li>
                         <li style="margin-bottom: 0.5rem;"><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> AI/ML in VLSI</li>
                         <li><i class="fas fa-check" style="color: var(--success); margin-right: 0.5rem;"></i> Technical Leadership</li>
                     </ul>
@@ -1156,6 +1396,196 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
             </div>
         </div>
     </section>
+
+    <!-- Hidden Resume Template for PDF Generation -->
+    <div id="resumeTemplate" style="display: none; width: 210mm; min-height: 297mm; background: white; color: black; font-family: 'Space Grotesk', sans-serif; padding: 15mm; box-sizing: border-box;">
+        <!-- Resume Header -->
+        <div style="text-align: center; margin-bottom: 25px; border-bottom: 2px solid #2563eb; padding-bottom: 20px;">
+            <h1 style="margin: 0; font-size: 32px; color: #1e40af; font-weight: 700; letter-spacing: -0.5px;">HARPREET KAUR</h1>
+            <h2 style="margin: 8px 0 12px 0; font-size: 16px; color: #374151; font-weight: 600;">Senior Product Engineer - Front End @ Synopsys</h2>
+            <div style="font-size: 12px; color: #6b7280; display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 10px;">
+                <span><strong>Email:</strong> harpreet96pabla@gmail.com</span>
+                <span><strong>Location:</strong> India</span>
+                <span><strong>Company:</strong> Synopsys Inc.</span>
+            </div>
+            <div style="font-size: 11px; color: #6b7280; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 8px;">
+                <span><strong>Portfolio:</strong> github.io/harpreet-kaur-portfolio</span>
+                <span><strong>LinkedIn:</strong> linkedin.com/in/harpreet-kaur</span>
+            </div>
+        </div>
+
+        <!-- Professional Summary -->
+        <div style="margin-bottom: 18px;">
+            <h3 style="color: #2563eb; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #2563eb; padding-bottom: 3px;">PROFESSIONAL SUMMARY</h3>
+            <p style="font-size: 11px; line-height: 1.4; margin: 0; text-align: justify;">
+                <strong>Senior Product Engineer - EDA & Physical Design Specialist</strong> with M.Tech in Electronics VLSI Design (GPA: 9.03/10) and published research in VLSI power optimization. 
+                <strong>3+ years at Synopsys</strong> spanning Design.da analytics platform development, HDL Compiler/RTL Architect optimization, and advanced physical design automation. 
+                <strong>Expert in PPA analysis, timing correlation, and RTL-to-signoff design flows</strong> with proven success delivering enterprise solutions for Samsung Foundry, Intel, and NXP.
+            </p>
+        </div>
+
+        <!-- Experience -->
+        <div style="margin-bottom: 18px;">
+            <h3 style="color: #0066cc; font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #ddd; padding-bottom: 3px;">PROFESSIONAL EXPERIENCE</h3>
+            
+            <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <h4 style="margin: 0; font-size: 12px; color: #333; font-weight: 600;">Senior Product Engineer - Front End | Synopsys Inc.</h4>
+                    <span style="font-size: 10px; color: #666; font-weight: 500;">Oct 2025 - Present</span>
+                </div>
+                <ul style="margin: 0; padding-left: 12px; font-size: 10px; line-height: 1.3;">
+                    <li>Leading HDL Compiler & RTL Architect development with SystemVerilog compliance focus</li>
+                    <li>Optimizing synthesis tool performance and memory consumption for major tech companies</li>
+                    <li>Resolving critical customer escalations with cross-tool integration expertise</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <h4 style="margin: 0; font-size: 12px; color: #333; font-weight: 600;">Senior Product Engineer - Design.da | Synopsys Inc.</h4>
+                    <span style="font-size: 10px; color: #666; font-weight: 500;">2023 - Oct 2025</span>
+                </div>
+                <ul style="margin: 0; padding-left: 12px; font-size: 10px; line-height: 1.3;">
+                    <li>Built enterprise analytics platform processing massive EDA datasets automatically</li>
+                    <li>Delivered Samsung Foundry success with custom analytics for 1000+ critical nets</li>
+                    <li>Created intelligent dashboards eliminating manual analysis bottlenecks</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                    <h4 style="margin: 0; font-size: 12px; color: #333; font-weight: 600;">Post Graduate Engineer Trainee | Synopsys Inc.</h4>
+                    <span style="font-size: 10px; color: #666; font-weight: 500;">2022 - 2023</span>
+                </div>
+                <ul style="margin: 0; padding-left: 12px; font-size: 10px; line-height: 1.3;">
+                    <li>Developed Python applications reducing analysis time significantly</li>
+                    <li>Fixed 20+ critical bugs improving platform stability and reliability</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Projects -->
+        <div style="margin-bottom: 15px;">
+            <h3 style="color: #2563eb; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #2563eb; padding-bottom: 2px; font-weight: 700;">KEY PROJECTS</h3>
+            
+            <div style="margin-bottom: 6px;">
+                <h4 style="margin: 0 0 3px 0; font-size: 11px; color: #1e40af; font-weight: 700;">Design Analytics Platform (Design.da) - Enterprise EDA Intelligence</h4>
+                <ul style="margin: 0 0 4px 0; padding-left: 12px; font-size: 9px; line-height: 1.3;">
+                    <li style="margin-bottom: 1px;">Built enterprise analytics platform processing massive EDA datasets automatically</li>
+                    <li style="margin-bottom: 1px;">Delivered enterprise custom solutions for thousands of critical nets power optimization</li>
+                    <li style="margin-bottom: 1px;">Eliminated manual analysis bottlenecks, accelerated customer design closure</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 6px;">
+                <h4 style="margin: 0 0 3px 0; font-size: 11px; color: #1e40af; font-weight: 700;">Intel Critical Performance Crisis - Memory & Runtime Optimization</h4>
+                <ul style="margin: 0 0 4px 0; padding-left: 12px; font-size: 9px; line-height: 1.3;">
+                    <li style="margin-bottom: 1px;">Resolved critical NVL_HUB design crashes consuming 1TB+ memory during synthesis</li>
+                    <li style="margin-bottom: 1px;">Achieved 35% memory reduction enabling successful synthesis of largest designs</li>
+                    <li style="margin-bottom: 1px;">Saved weeks of Intel's product timeline through rapid diagnosis and solution delivery</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 6px;">
+                <h4 style="margin: 0 0 3px 0; font-size: 11px; color: #1e40af; font-weight: 700;">SystemVerilog Consistency Revolution - Cross-Tool Compatibility</h4>
+                <ul style="margin: 0 0 4px 0; padding-left: 12px; font-size: 9px; line-height: 1.3;">
+                    <li style="margin-bottom: 1px;">Eliminated design portability issues caused by inconsistent SystemVerilog interpretation</li>
+                    <li style="margin-bottom: 1px;">Built comprehensive validation framework covering thousands of RTL patterns</li>
+                    <li style="margin-bottom: 1px;">Achieved 100% tool consistency, eliminated silent failures across synthesis platforms</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 6px;">
+                <h4 style="margin: 0 0 3px 0; font-size: 11px; color: #1e40af; font-weight: 700;">Samsung Foundry Analytics & PPA Optimization Platform - Comprehensive Enterprise Solution</h4>
+                <ul style="margin: 0 0 4px 0; padding-left: 12px; font-size: 9px; line-height: 1.3;">
+                    <li style="margin-bottom: 1px;">Delivered comprehensive analytics platform with custom solution processing 1000+ critical nets for power optimization</li>
+                    <li style="margin-bottom: 1px;">Architected automated PPA dashboard reducing analysis time by 30-40% and design evaluation efficiency by 25%</li>
+                    <li style="margin-bottom: 1px;">Cut manual effort ~50% with QoR summaries, sanity checks, and AI-driven enhancements across entire design flow</li>
+                </ul>
+            </div>
+
+            <div style="margin-bottom: 6px;">
+                <h4 style="margin: 0 0 3px 0; font-size: 11px; color: #1e40af; font-weight: 700;">FC-PT Timing Signoff Correlation & Reliability System - Comprehensive Automation</h4>
+                <ul style="margin: 0 0 4px 0; padding-left: 12px; font-size: 9px; line-height: 1.3;">
+                    <li style="margin-bottom: 1px;">Eliminated timing signoff uncertainty preventing tapeout delays with automated FC-PT correlation system</li>
+                    <li style="margin-bottom: 1px;">Reduced debug cycles from weeks to hours with intelligent root cause analysis and SPEF integration</li>
+                    <li style="margin-bottom: 1px;">Built comprehensive analytics dashboards with deep drill-down capabilities for timing validation</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Achievements -->
+        <div style="margin-bottom: 18px;">
+            <h3 style="color: #0066cc; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 3px;">KEY ACHIEVEMENTS</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; line-height: 1.3;">
+                <ul style="margin: 0; padding-left: 12px;">
+                    <li><strong>Customer Impact:</strong> 100+ critical issues resolved for Intel, Samsung, Socionext</li>
+                    <li><strong>Performance Gains:</strong> 35% memory reduction, weeks→hours debug time</li>
+                    <li><strong>Enterprise Success:</strong> NXP analytics transformation, workflow automation</li>
+                </ul>
+                <ul style="margin: 0; padding-left: 12px;">
+                    <li><strong>Technical Innovation:</strong> Cross-tool SystemVerilog validation framework</li>
+                    <li><strong>Process Improvement:</strong> Automated timing correlation, signoff reliability</li>
+                    <li><strong>Research Contribution:</strong> Published VLSI power optimization techniques</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Education & Publications Combined -->
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 15px; margin-bottom: 18px;">
+            <div>
+                <h3 style="color: #0066cc; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 3px;">EDUCATION</h3>
+                <div style="margin-bottom: 8px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <h4 style="margin: 0; font-size: 11px; color: #333; font-weight: 600;">M.Tech Electronics VLSI Design</h4>
+                        <span style="font-size: 9px; color: #666;">2021-2023</span>
+                    </div>
+                    <div style="font-size: 10px; color: #0066cc; margin-bottom: 2px;">Punjab Engineering College, Chandigarh</div>
+                    <div style="font-size: 9px; color: #333;"><strong>GPA: 9.03/10</strong> | Thesis: Power-aware timing analysis optimization</div>
+                </div>
+                <div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <h4 style="margin: 0; font-size: 11px; color: #333; font-weight: 600;">B.Tech Electronics & Communication</h4>
+                        <span style="font-size: 9px; color: #666;">2014-2018</span>
+                    </div>
+                    <div style="font-size: 10px; color: #0066cc; margin-bottom: 2px;">UIET, Kurukshetra University</div>
+                    <div style="font-size: 9px; color: #333;"><strong>GPA: 8.33/10</strong> | Project: IoT health monitoring system</div>
+                </div>
+            </div>
+            
+            <div>
+                <h3 style="color: #0066cc; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 3px;">PUBLICATIONS</h3>
+                <div style="font-size: 9px; line-height: 1.3;">
+                    <div style="font-weight: 600; margin-bottom: 3px;">"Power Reduction Techniques in VLSI Physical Design"</div>
+                    <div style="color: #666; margin-bottom: 2px;">IJSRD Journal, 2023</div>
+                    <div style="color: #0066cc; font-size: 8px;">ijsrd.com/articles/IJSRDV11I50145.pdf</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div style="margin-bottom: 15px;">
+            <h3 style="color: #0066cc; font-size: 14px; margin-bottom: 8px; border-bottom: 1px solid #ddd; padding-bottom: 3px;">TECHNICAL EXPERTISE</h3>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; font-size: 9px;">
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 10px; color: #333; font-weight: 600;">EDA Tools</h4>
+                    <div style="line-height: 1.2;">HDL Compiler, RTL Architect, Design Compiler, Fusion Compiler, PrimeTime, Cadence Virtuoso</div>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 10px; color: #333; font-weight: 600;">Programming</h4>
+                    <div style="line-height: 1.2;">SystemVerilog, VHDL, Tcl, Python, Shell Scripting</div>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 10px; color: #333; font-weight: 600;">Specializations</h4>
+                    <div style="line-height: 1.2;">RTL Synthesis, Power Optimization, Timing Analysis, Performance Profiling</div>
+                </div>
+                <div>
+                    <h4 style="margin: 0 0 4px 0; font-size: 10px; color: #333; font-weight: 600;">Analytics</h4>
+                    <div style="line-height: 1.2;">Data Analytics, ML, Workflow Automation, Dashboard Development</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Smooth scrolling for navigation links
@@ -1241,6 +1671,126 @@ improved design evaluation efficiency by 25%. Validated solution across early-no
                 const speed = 0.5 + (index * 0.1);
                 icon.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
             });
+        });
+
+        // Contact Form Handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:harpreet96pabla@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            
+            // Open default email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            const button = this.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+            button.style.background = 'linear-gradient(135deg, var(--success), var(--primary))';
+            
+            // Reset form after 2 seconds
+            setTimeout(() => {
+                this.reset();
+                button.innerHTML = originalText;
+                button.style.background = '';
+            }, 2000);
+        });
+
+        // Form input animations
+        document.querySelectorAll('#contactForm input, #contactForm textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+
+        // PDF Resume Generation
+        document.getElementById('downloadResumeBtn').addEventListener('click', async function() {
+            const button = this;
+            const originalText = button.innerHTML;
+            
+            // Show loading state
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            button.disabled = true;
+            
+            try {
+                // Get the resume template
+                const resumeElement = document.getElementById('resumeTemplate');
+                
+                // Temporarily show the resume template for rendering
+                resumeElement.style.display = 'block';
+                resumeElement.style.position = 'absolute';
+                resumeElement.style.left = '-9999px';
+                resumeElement.style.top = '0';
+                
+                // Wait for fonts to load
+                await document.fonts.ready;
+                
+                // Generate canvas from the resume template
+                const canvas = await html2canvas(resumeElement, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    width: 794, // A4 width in pixels at 96 DPI
+                    height: 1123, // A4 height in pixels at 96 DPI
+                    scrollX: 0,
+                    scrollY: 0
+                });
+                
+                // Hide the resume template again
+                resumeElement.style.display = 'none';
+                
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+                
+                // Calculate dimensions to fit A4
+                const imgWidth = 210; // A4 width in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                // Add image to PDF
+                const imgData = canvas.toDataURL('image/png');
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                
+                // Download the PDF
+                pdf.save('Harpreet_Kaur_Resume.pdf');
+                
+                // Show success state
+                button.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+                button.style.background = 'linear-gradient(135deg, var(--success), var(--primary))';
+                
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                button.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error occurred';
+                button.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+            }
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '';
+                button.disabled = false;
+            }, 3000);
+        });
+
+        // Add event listener for the second download button
+        document.getElementById('downloadResumeBtn2').addEventListener('click', function() {
+            document.getElementById('downloadResumeBtn').click();
         });
     </script>
 </body>
